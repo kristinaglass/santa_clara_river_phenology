@@ -20,7 +20,7 @@ Phenology is the cyclical and seasonal lifecycle of natural phenomenon. For plan
 
 ## Area of Interest
 
-For this study, we're interested in exploring plant phenology near the Santa Clara River which flows from Santa Clarita, CA and Ventura, CA.
+For this study, we're interested in exploring plant phenology near the Santa Clara River which flows from Santa Clarita, CA and Ventura, CA. It is the last major coastal system within Southern California that has been relatively unchanged by development and supports over 17 species. The Santa Clara River is also supportive of one of the most valuable agricultural in the world[1](http://rivrlab.msi.ucsb.edu/santa-clara-river).
 
 # Purpose of Study
 
@@ -85,7 +85,7 @@ ndvi_fun <- function(nir, red){
 
 ```
 
-```{r}
+```{r, warning=FALSE, messages=FALSE}
 # read in first landsat scene from June 12, 2018
 landsat_20180612 <- rast(here("assignments", "santa_clara_river_phenology","data", "landsat_20180612.tif"))
 #view dataset
@@ -111,7 +111,7 @@ plot(ndvi_20180612)
 
 To make a more fluid process to compute NDVI, I created a function that computes all NDVI scenes simultaneously
 
-```{r}
+```{r, warning=FALSE, messages=FALSE}
 rm(list = ls())
 here::i_am("assignments/santa_clara_river_phenology/river_phenology.Rmd")
 
@@ -131,7 +131,7 @@ create_ndvi_layer <- function(){
 
 ```
 
-```{r}
+```{r, warning=FALSE, messages=FALSE}
 
 #calling for a list if files from the data folder stores all data to one variable
 # the "pattern" option returns names that end in .tif (the file extension for the landsat scences)
@@ -140,7 +140,7 @@ create_ndvi_layer <- function(){
 files <- list.files(here("assignments", "santa_clara_river_phenology","data"), pattern = "*.tif", full.names = TRUE)
 ```
 
-```{r}
+```{r, warning=FALSE, messages=FALSE}
 #update function to work with list of file names
 # now we're passing our function a number that will correspond to the index in the list of file names
 create_ndvi_layer <- function(i){
@@ -153,7 +153,7 @@ create_ndvi_layer <- function(i){
 test <- create_ndvi_layer(1)
 ```
 
-```{r}
+```{r, warning=FALSE, messages=FALSE}
 #run function on all scenes
 # create NDVI layer for each scene (day) and stack into a single rasterstack
 all_ndvi <- c(create_ndvi_layer(1),
@@ -233,7 +233,7 @@ ggplot(sites_clean,
        title = "Seasonal cycles of vegetation productivity")
 ```
 
-NDVI values will range from -1.0 - 1.0, where negative values indicate clouds and water, positive values near zero indicate bare soil, values from 0.1-0.5 indicating sparse vegetation and 0.6-1.0 indicating dense green vegetation [2](<https://ipad.fas.usda.gov/cropexplorer/Definitions/spotveg.htm>). With this knowledge, we can begin to interpret the results.
+NDVI values will range from -1.0 - 1.0, where negative values indicate clouds and water, positive values near zero indicate bare soil, values from 0.1-0.5 indicating sparse vegetation and 0.6-1.0 indicating dense green vegetation [2](https://ipad.fas.usda.gov/cropexplorer/Definitions/spotveg.htm). With this knowledge, we can begin to interpret the results.
 
 ### Chaparral
 
@@ -251,4 +251,12 @@ This vegetation experiences the most extreme shifts in NDVI, with values under 0
 
 # Conclusion
 
-From the data available, we can see that in 2019, NDVI values as of July were above NDVI values for the following year. This could be due to longer periods of rain, longer periods of warm weather, or other climate related factors, which would be worth investigating for future study. While none of the study sites experienced extreme deviations expected NDVI from 2018-2019, the shift in their seasonal productivity cycle is present as indicated by the plot above.
+From the data available, we can see that in 2019, NDVI values as of July were above NDVI values for the following year. This could be due to longer periods of rain[3](https://www.latimes.com/california/story/2019-12-31/southern-california-precipitation-above-normal-year-end), longer periods of warm weather, or other climate related factors, which would be worth investigating for future study. While none of the study sites experienced extreme deviations expected NDVI from 2018-2019, the shift in their seasonal productivity cycle is present as indicated by the plot above.
+
+# References
+
+Duginski, P. (2020, January 1). *At Year's End, Southern California's precipitation remains above normal*. Los Angeles Times. <https://www.latimes.com/california/story/2019-12-31/southern-california-precipitation-above-normal-year-end>
+
+*Normalized difference vegetation index (NDVI)*. International Production Assessment Division (IPAD) - Home Page. (n.d.). <https://ipad.fas.usda.gov/cropexplorer/Definitions/spotveg.htm>
+
+*Santa Clara River Research and Restoration*. Rivrlab.msi.ucsb.edu. (n.d.). <http://rivrlab.msi.ucsb.edu/santa-clara-river>
